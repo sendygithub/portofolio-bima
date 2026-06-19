@@ -1,14 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, MapPin, GraduationCap, Calendar } from "lucide-react";
+import { ArrowDown, MapPin, GraduationCap, Calendar, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 const typingTexts = [
-  "Optimizing Operations, Driving Growth",
-  "Transforming Business Performance",
-  "Strategic Excellence Delivered",
+  "Mengoptimalkan Operasional, Mendorong Pertumbuhan",
+  "Mentransformasi Kinerja Bisnis",
+  "Keunggulan Strategis yang Terbukti",
 ];
 
 export default function HeroSection() {
@@ -23,13 +22,13 @@ export default function HeroSection() {
     if (!isDeleting && currentText.length < text.length) {
       timeout = setTimeout(() => {
         setCurrentText(text.slice(0, currentText.length + 1));
-      }, 100);
+      }, 80);
     } else if (!isDeleting && currentText.length === text.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 2000);
+      timeout = setTimeout(() => setIsDeleting(true), 2500);
     } else if (isDeleting && currentText.length > 0) {
       timeout = setTimeout(() => {
         setCurrentText(text.slice(0, currentText.length - 1));
-      }, 50);
+      }, 40);
     } else if (isDeleting && currentText.length === 0) {
       setIsDeleting(false);
       setCurrentIndex((prev) => (prev + 1) % typingTexts.length);
@@ -41,91 +40,124 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a0a0a] via-[#0f172a] to-[#1e293b] px-4 sm:px-6 pt-24 pb-12"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 pt-24 pb-12"
+      style={{ background: "var(--bg-base)" }}
     >
-      <div className="container mx-auto max-w-6xl">
+      {/* Animated orbs */}
+      <div className="orb orb-purple w-[500px] h-[500px] top-[-100px] left-[-100px]" />
+      <div className="orb orb-cyan w-[400px] h-[400px] bottom-[-50px] right-[-50px]" />
+      <div className="orb orb-pink w-[300px] h-[300px] top-[40%] left-[40%]" />
+
+      {/* Grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.04) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center">
-          {/* Profile Photo */}
+
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 mb-8"
+          >
+            <span className="tag tag-purple">
+              <Zap className="w-3 h-3" />
+              Tersedia untuk Proyek Baru
+            </span>
+          </motion.div>
+
+          {/* Avatar */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, type: "spring" }}
+            transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
             className="mb-8 flex justify-center"
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="relative"
-            >
-              <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-[#10b981] via-[#0f172a] to-[#f59e0b] p-1">
-                <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-[#10b981] to-[#0f172a] flex items-center justify-center text-white text-4xl sm:text-5xl md:text-6xl font-bold">
-                    BM
-                  </div>
+            <div className="relative">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl p-[2px]"
+                style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee, #ec4899)" }}>
+                <div className="w-full h-full rounded-2xl flex items-center justify-center text-4xl sm:text-5xl font-black text-white"
+                  style={{ background: "var(--bg-card)" }}>
+                  BM
                 </div>
               </div>
+              {/* Status dot */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -top-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#10b981] opacity-75"
+                animate={{ scale: [1, 1.3, 1] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2"
+                style={{ borderColor: "var(--bg-base)" }}
               />
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Name */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-3 tracking-tight"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.03em" }}
           >
-            Bima Maulana S. M
+            Bima Maulana{" "}
+            <span className="gradient-text">S. M</span>
           </motion.h1>
 
-          {/* Title */}
+          {/* Subtitle */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
             className="mb-6"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] to-[#f59e0b] mb-2">
-              Business Management Professional
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold"
+              style={{ color: "var(--text-secondary)" }}>
+              Profesional{" "}
+              <span className="gradient-text-pink">Manajemen Bisnis</span>
             </h2>
           </motion.div>
 
-          {/* Profile Info */}
+          {/* Info chips */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-8 text-sm sm:text-base"
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="flex flex-wrap justify-center gap-3 mb-8 text-sm"
           >
-            <div className="flex items-center gap-2 text-gray-300">
-              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#10b981]" />
-              <span>Tangerang</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-300">
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-[#10b981]" />
-              <span>25 Tahun</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-300">
-              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-[#10b981]" />
-              <span className="text-center">Esa Unggul - Manajemen Bisnis</span>
-            </div>
+            {[
+              { icon: <MapPin className="w-3.5 h-3.5" />, label: "Tangerang" },
+              { icon: <Calendar className="w-3.5 h-3.5" />, label: "25 Tahun" },
+              { icon: <GraduationCap className="w-3.5 h-3.5" />, label: "Esa Unggul – Manajemen Bisnis" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", color: "var(--text-secondary)" }}>
+                <span style={{ color: "var(--purple-light)" }}>{item.icon}</span>
+                {item.label}
+              </div>
+            ))}
           </motion.div>
 
-          {/* Typing Animation */}
+          {/* Typing animation */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-[#94a3b8] mb-8 min-h-[40px] sm:min-h-[50px] md:min-h-[60px]"
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="text-lg sm:text-xl md:text-2xl font-medium mb-6 min-h-[36px] sm:min-h-[44px]"
+            style={{ color: "var(--text-secondary)" }}
           >
             <span>{currentText}</span>
             <motion.span
               animate={{ opacity: [1, 0] }}
-              transition={{ repeat: Infinity, duration: 1 }}
-              className="inline-block w-1 h-6 sm:h-8 bg-[#10b981] ml-2"
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="inline-block w-0.5 h-5 sm:h-6 ml-1 align-middle rounded-full"
+              style={{ background: "var(--cyan)" }}
             />
           </motion.div>
 
@@ -133,52 +165,56 @@ export default function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 px-4"
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
           >
-            Delivering strategic solutions that transform operations, enhance
-            efficiency, and drive sustainable growth for businesses worldwide.
+            Menghadirkan solusi strategis yang mentransformasi operasional, meningkatkan
+            efisiensi, dan mendorong pertumbuhan berkelanjutan bagi bisnis di seluruh dunia.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <motion.a
               href="#services"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#10b981] to-[#0f172a] text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow text-center"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-primary w-full sm:w-auto px-8 py-3.5 text-sm font-semibold flex items-center justify-center gap-2"
+              style={{ borderRadius: "10px" }}
             >
-              Explore Services
+              <span>Lihat Layanan</span>
             </motion.a>
             <motion.a
               href="#case-studies"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-transparent text-white border-2 border-[#10b981] rounded-lg font-semibold hover:bg-[#10b981] transition-colors text-center"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-outline w-full sm:w-auto px-8 py-3.5 text-sm font-semibold flex items-center justify-center gap-2"
             >
-              View Case Studies
+              Lihat Studi Kasus
             </motion.a>
           </motion.div>
 
-          {/* Scroll Indicator */}
+          {/* Scroll indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="mt-12 sm:mt-16"
+            transition={{ duration: 0.6, delay: 1.1 }}
+            className="mt-16"
           >
             <motion.a
               href="#services"
-              animate={{ y: [0, 10, 0] }}
+              animate={{ y: [0, 8, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="inline-block"
+              className="inline-flex flex-col items-center gap-1"
+              style={{ color: "var(--text-muted)" }}
             >
-              <ArrowDown className="w-6 h-6 sm:w-8 sm:h-8 text-[#94a3b8] hover:text-[#10b981] transition-colors" />
+              <span className="text-xs tracking-widest uppercase">Scroll</span>
+              <ArrowDown className="w-4 h-4" />
             </motion.a>
           </motion.div>
         </div>

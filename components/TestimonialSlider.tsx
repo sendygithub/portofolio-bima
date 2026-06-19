@@ -10,6 +10,8 @@ interface Testimonial {
   company: string;
   content: string;
   rating: number;
+  initials: string;
+  gradient: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -17,33 +19,37 @@ const testimonials: Testimonial[] = [
     name: "Sarah Johnson",
     role: "CEO",
     company: "TechCorp Global",
-    content:
-      "Working with this professional transformed our entire operation. The strategic insights and execution excellence delivered results beyond our expectations. Highly recommended!",
+    content: "Bekerja dengan profesional ini mentransformasi seluruh operasional kami. Wawasan strategis dan keunggulan eksekusi menghasilkan hasil yang melampaui ekspektasi kami. Sangat direkomendasikan!",
     rating: 5,
+    initials: "SJ",
+    gradient: "linear-gradient(135deg, #8b5cf6, #22d3ee)",
   },
   {
     name: "Michael Chen",
-    role: "Operations Director",
+    role: "Direktur Operasional",
     company: "Manufacturing Plus",
-    content:
-      "The process optimization and team leadership skills brought our efficiency to new heights. We saw immediate improvements and sustainable growth.",
+    content: "Keahlian optimalisasi proses dan kepemimpinan tim membawa efisiensi kami ke level tertinggi. Kami melihat perbaikan langsung dan pertumbuhan yang berkelanjutan.",
     rating: 5,
+    initials: "MC",
+    gradient: "linear-gradient(135deg, #22d3ee, #10b981)",
   },
   {
     name: "Emily Rodriguez",
     role: "CFO",
     company: "FinanceFirst",
-    content:
-      "Outstanding expertise in risk management and compliance. The digital transformation initiative was executed flawlessly, and our team adapted seamlessly.",
+    content: "Keahlian luar biasa dalam manajemen risiko dan kepatuhan. Inisiatif transformasi digital dieksekusi dengan sempurna, dan tim kami beradaptasi dengan mulus.",
     rating: 5,
+    initials: "ER",
+    gradient: "linear-gradient(135deg, #ec4899, #8b5cf6)",
   },
   {
     name: "David Thompson",
-    role: "VP of Sales",
+    role: "VP Penjualan",
     company: "RetailMax",
-    content:
-      "The omnichannel strategy and customer experience improvements revolutionized our business. Sales growth exceeded all projections.",
+    content: "Strategi omnichannel dan peningkatan pengalaman pelanggan merevolusi bisnis kami. Pertumbuhan penjualan melampaui semua proyeksi.",
     rating: 5,
+    initials: "DT",
+    gradient: "linear-gradient(135deg, #f59e0b, #ec4899)",
   },
 ];
 
@@ -54,63 +60,70 @@ export default function TestimonialSlider() {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
-
     return () => clearInterval(timer);
   }, []);
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const t = testimonials[currentIndex];
 
   return (
-    <section id="testimonials" className="py-12 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-[#0f172a] to-[#0a0a0a]">
-      <div className="container mx-auto max-w-4xl">
+    <section id="testimonials" className="py-20 sm:py-28 px-4 sm:px-6 relative" style={{ background: "var(--bg-base)" }}>
+      <div className="orb orb-pink w-[350px] h-[350px] top-0 right-0 opacity-40" />
+
+      <div className="container mx-auto max-w-3xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Client Testimonials
+          <span className="tag tag-cyan mb-4 inline-block">Ulasan Klien</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 tracking-tight"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.025em" }}>
+            Testimoni <span className="gradient-text-pink">Klien</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-400">
-            What our clients say about working with us
+          <p className="text-base sm:text-lg" style={{ color: "var(--text-muted)" }}>
+            Apa yang klien kami katakan tentang bekerja bersama kami
           </p>
         </motion.div>
 
-        <div className="relative">
+        <div className="relative px-10 sm:px-14">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="bg-[#0f172a] rounded-2xl p-6 sm:p-8 md:p-12 shadow-xl border border-[#10b981]/20"
+              initial={{ opacity: 0, x: 60, scale: 0.97 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -60, scale: 0.97 }}
+              transition={{ duration: 0.4 }}
+              className="card-glass p-8 sm:p-10 relative overflow-hidden"
             >
-              <Quote className="w-10 h-10 sm:w-12 sm:h-12 text-[#10b981] mb-4 sm:mb-6" />
-              <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
-                "{testimonials[currentIndex].content}"
+              {/* Top gradient border */}
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: t.gradient }} />
+
+              {/* Quote icon */}
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-6"
+                style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)" }}>
+                <Quote className="w-5 h-5" style={{ color: "var(--purple-light)" }} />
+              </div>
+
+              <p className="text-base sm:text-lg leading-relaxed mb-8 italic"
+                style={{ color: "var(--text-secondary)" }}>
+                "{t.content}"
               </p>
-              <div className="flex items-center justify-between">
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+                  style={{ background: t.gradient }}>
+                  {t.initials}
+                </div>
                 <div>
-                  <h4 className="text-lg sm:text-xl font-bold text-white">
-                    {testimonials[currentIndex].name}
-                  </h4>
-                  <p className="text-gray-400 text-sm sm:text-base">
-                    {testimonials[currentIndex].role}, {testimonials[currentIndex].company}
-                  </p>
-                  <div className="flex gap-1 mt-2">
-                    {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                      <span key={i} className="text-[#f59e0b] text-lg sm:text-xl">
-                        ★
-                      </span>
+                  <div className="font-bold" style={{ color: "var(--text-primary)" }}>{t.name}</div>
+                  <div className="text-sm" style={{ color: "var(--text-muted)" }}>{t.role}, {t.company}</div>
+                  <div className="flex gap-0.5 mt-1">
+                    {[...Array(t.rating)].map((_, i) => (
+                      <span key={i} className="text-sm" style={{ color: "#f59e0b" }}>★</span>
                     ))}
                   </div>
                 </div>
@@ -118,34 +131,41 @@ export default function TestimonialSlider() {
             </motion.div>
           </AnimatePresence>
 
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 md:-translate-x-12 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0f172a] border border-[#10b981]/30 shadow-lg flex items-center justify-center hover:bg-[#10b981] hover:border-[#10b981] text-white transition-colors"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-          </button>
-
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 md:translate-x-12 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0f172a] border border-[#10b981]/30 shadow-lg flex items-center justify-center hover:bg-[#10b981] hover:border-[#10b981] text-white transition-colors"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-          </button>
+          {/* Nav buttons */}
+          {[
+            { fn: prev, side: "left-0", label: "Previous testimonial", Icon: ChevronLeft },
+            { fn: next, side: "right-0", label: "Next testimonial", Icon: ChevronRight },
+          ].map(({ fn, side, label, Icon }) => (
+            <button
+              key={label}
+              onClick={fn}
+              aria-label={label}
+              className={`absolute ${side} top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-all`}
+              style={{
+                background: "rgba(139,92,246,0.1)",
+                border: "1px solid rgba(139,92,246,0.25)",
+                color: "var(--purple-light)",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(139,92,246,0.25)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(139,92,246,0.1)"; }}
+            >
+              <Icon className="w-5 h-5" />
+            </button>
+          ))}
         </div>
 
-        <div className="flex justify-center gap-2 mt-6 sm:mt-8">
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-8">
           {testimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentIndex
-                  ? "bg-[#10b981] w-8"
-                  : "bg-gray-600 w-2"
-              }`}
-              aria-label={`Go to testimonial ${index + 1}`}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: index === currentIndex ? "32px" : "8px",
+                background: index === currentIndex ? "var(--purple)" : "rgba(255,255,255,0.15)",
+              }}
+              aria-label={`Testimoni ${index + 1}`}
             />
           ))}
         </div>

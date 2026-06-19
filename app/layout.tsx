@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Business Management Professional | Portfolio",
-  description: "Optimizing Operations, Driving Growth - Expert Business Management Solutions",
+  title: "Profesional Manajemen Bisnis | Portofolio",
+  description: "Mengoptimalkan Operasional, Mendorong Pertumbuhan - Solusi Manajemen Bisnis Profesional",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body
         className={`${inter.variable} ${geistMono.variable} antialiased`}
       >

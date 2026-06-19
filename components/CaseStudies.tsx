@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, AlertCircle, Lightbulb } from "lucide-react";
 
 interface CaseStudyProps {
   company: string;
@@ -10,52 +10,58 @@ interface CaseStudyProps {
   solution: string;
   result: string;
   delay: number;
+  accentColor: string;
 }
 
-function CaseStudyCard({
-  company,
-  industry,
-  challenge,
-  solution,
-  result,
-  delay,
-}: CaseStudyProps) {
+function CaseStudyCard({ company, industry, challenge, solution, result, delay, accentColor }: CaseStudyProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }}
+      initial={{ opacity: 0, x: 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay }}
-      className="bg-[#0f172a] rounded-2xl p-6 sm:p-8 shadow-lg border border-[#10b981]/20 min-w-[300px] sm:min-w-[350px] flex-shrink-0 hover:shadow-xl hover:border-[#10b981]/40 transition-shadow"
+      transition={{ duration: 0.55, delay }}
+      className="card-glass p-6 sm:p-7 min-w-[300px] sm:min-w-[380px] flex-shrink-0 relative overflow-hidden"
     >
-      <div className="mb-4 sm:mb-6">
-        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{company}</h3>
-        <span className="text-sm text-[#10b981] font-semibold">{industry}</span>
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: accentColor }} />
+
+      <div className="mb-5">
+        <h3 className="text-xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>{company}</h3>
+        <span className="tag" style={{
+          background: `rgba(139,92,246,0.1)`,
+          color: "var(--purple-light)",
+          border: "1px solid rgba(139,92,246,0.25)",
+          fontSize: "0.7rem",
+          padding: "3px 10px",
+          borderRadius: "999px",
+        }}>
+          {industry}
+        </span>
       </div>
 
-      <div className="space-y-4 sm:space-y-6">
-        <div>
-          <h4 className="text-xs sm:text-sm font-semibold text-gray-400 uppercase mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-            Challenge
-          </h4>
-          <p className="text-gray-300 text-sm sm:text-base">{challenge}</p>
+      <div className="space-y-4">
+        <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>
+          <div className="flex items-center gap-2 mb-1.5">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#f87171" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#f87171" }}>Tantangan</span>
+          </div>
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{challenge}</p>
         </div>
 
-        <div>
-          <h4 className="text-xs sm:text-sm font-semibold text-gray-400 uppercase mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-            Solution
-          </h4>
-          <p className="text-gray-300 text-sm sm:text-base">{solution}</p>
+        <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>
+          <div className="flex items-center gap-2 mb-1.5">
+            <Lightbulb className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--cyan)" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--cyan)" }}>Solusi</span>
+          </div>
+          <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{solution}</p>
         </div>
 
-        <div className="bg-gradient-to-br from-[#10b981] to-[#0f172a] rounded-lg p-4 text-white">
-          <h4 className="text-sm font-semibold uppercase mb-2 flex items-center gap-2">
-            <CheckCircle className="w-4 h-4" />
-            Result
-          </h4>
-          <p className="font-semibold text-lg">{result}</p>
+        <div className="p-3 rounded-xl" style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)" }}>
+          <div className="flex items-center gap-2 mb-1.5">
+            <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--purple-light)" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--purple-light)" }}>Hasil</span>
+          </div>
+          <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{result}</p>
         </div>
       </div>
     </motion.div>
@@ -66,65 +72,64 @@ export default function CaseStudies() {
   const caseStudies = [
     {
       company: "TechCorp Global",
-      industry: "Technology",
-      challenge:
-        "Facing declining market share and operational inefficiencies across multiple departments.",
-      solution:
-        "Implemented comprehensive process optimization, restructured teams, and introduced data-driven decision-making frameworks.",
-      result: "35% increase in operational efficiency and 20% revenue growth in 12 months",
+      industry: "Teknologi",
+      challenge: "Menghadapi penurunan pangsa pasar dan inefisiensi operasional di berbagai departemen.",
+      solution: "Menerapkan optimalisasi proses menyeluruh, merestrukturisasi tim, dan memperkenalkan kerangka pengambilan keputusan berbasis data.",
+      result: "Peningkatan efisiensi operasional 35% dan pertumbuhan pendapatan 20% dalam 12 bulan",
+      accentColor: "linear-gradient(90deg, #8b5cf6, #22d3ee)",
     },
     {
       company: "Manufacturing Plus",
-      industry: "Manufacturing",
-      challenge:
-        "Supply chain disruptions and quality control issues affecting customer satisfaction.",
-      solution:
-        "Redesigned supply chain processes, implemented quality management systems, and established strategic vendor partnerships.",
-      result: "50% reduction in defects and 30% improvement in on-time delivery",
+      industry: "Manufaktur",
+      challenge: "Gangguan rantai pasokan dan masalah pengendalian kualitas yang memengaruhi kepuasan pelanggan.",
+      solution: "Mendesain ulang proses rantai pasokan, menerapkan sistem manajemen kualitas, dan membangun kemitraan vendor strategis.",
+      result: "Pengurangan cacat 50% dan peningkatan pengiriman tepat waktu 30%",
+      accentColor: "linear-gradient(90deg, #22d3ee, #10b981)",
     },
     {
       company: "FinanceFirst",
-      industry: "Financial Services",
-      challenge:
-        "Regulatory compliance challenges and need for digital transformation.",
-      solution:
-        "Developed compliance framework, led digital transformation initiative, and trained teams on new systems and processes.",
-      result: "100% compliance rate and 40% reduction in processing time",
+      industry: "Layanan Keuangan",
+      challenge: "Tantangan kepatuhan regulasi dan kebutuhan transformasi digital.",
+      solution: "Mengembangkan kerangka kepatuhan, memimpin inisiatif transformasi digital, dan melatih tim pada sistem dan proses baru.",
+      result: "Tingkat kepatuhan 100% dan pengurangan waktu pemrosesan 40%",
+      accentColor: "linear-gradient(90deg, #ec4899, #8b5cf6)",
     },
     {
       company: "RetailMax",
-      industry: "Retail",
-      challenge:
-        "Stagnant growth and inability to compete with e-commerce giants.",
-      solution:
-        "Created omnichannel strategy, optimized inventory management, and enhanced customer experience programs.",
-      result: "25% increase in sales and 45% improvement in customer retention",
+      industry: "Ritel",
+      challenge: "Pertumbuhan stagnan dan ketidakmampuan bersaing dengan raksasa e-commerce.",
+      solution: "Membuat strategi omnichannel, mengoptimalkan manajemen inventori, dan meningkatkan program pengalaman pelanggan.",
+      result: "Peningkatan penjualan 25% dan perbaikan retensi pelanggan 45%",
+      accentColor: "linear-gradient(90deg, #f59e0b, #ec4899)",
     },
   ];
 
   return (
-    <section id="case-studies" className="py-12 sm:py-20 px-4 sm:px-6 bg-[#0a0a0a]">
-      <div className="container mx-auto max-w-6xl">
+    <section id="case-studies" className="py-20 sm:py-28 px-4 sm:px-6 relative" style={{ background: "var(--bg-surface)" }}>
+      <div className="orb orb-cyan w-[350px] h-[350px] bottom-0 left-[-100px] opacity-50" />
+
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Case Studies
+          <span className="tag tag-purple mb-4 inline-block">Portofolio</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 tracking-tight"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.025em" }}>
+            Studi <span className="gradient-text">Kasus</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4">
-            Real results from real businesses - see how we've transformed
-            operations
+          <p className="text-base sm:text-lg max-w-lg mx-auto" style={{ color: "var(--text-muted)" }}>
+            Hasil nyata dari bisnis nyata — lihat bagaimana kami mentransformasi operasional
           </p>
         </motion.div>
 
         <div className="overflow-x-auto pb-6 -mx-4 sm:-mx-6 px-4 sm:px-6 scrollbar-hide">
-          <div className="flex gap-4 sm:gap-6">
+          <div className="flex gap-5">
             {caseStudies.map((study, index) => (
-              <CaseStudyCard key={index} {...study} delay={index * 0.1} />
+              <CaseStudyCard key={index} {...study} delay={index * 0.08} />
             ))}
           </div>
         </div>
@@ -133,17 +138,18 @@ export default function CaseStudies() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-12"
         >
           <motion.a
             href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#10b981] to-[#0f172a] text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 text-sm"
+            style={{ borderRadius: "10px" }}
           >
-            Discuss Your Project
-            <ArrowRight className="w-5 h-5" />
+            <span>Diskusikan Proyek Anda</span>
+            <ArrowRight className="w-4 h-4" style={{ position: "relative", zIndex: 1 }} />
           </motion.a>
         </motion.div>
       </div>
